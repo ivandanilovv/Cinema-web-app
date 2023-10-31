@@ -1,0 +1,31 @@
+<html lang="en" xlmns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Movie Ticket Shop App</h1>
+</header>
+<main>
+    <form th:method="POST" th:action="@{/allTicketOrders}">
+        <label for="users">Choose a user:</label>
+        <select name="users" id="users">
+            <option th:each="user : ${allTickets}" th:text="${user.getClientName()}" name="username"></option>
+        </select>
+        <input type="submit" value="Search"><br/><br/>
+        <th:block th:each="ticket : ${filteredTickets}">
+            <b>Client name: </b><span th:text="${ticket.getClientName()}"></span><br/>
+            <b>Movie: </b><span th:text="${ticket.getMovieTitle()}"></span><br/>
+            <b>Number of tickets: </b><span th:text="${ticket.getNumberOfTickets()}"></span><br/><br/><br/>
+        </th:block>
+    </form>
+</main>
+</body>
+</html>

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mk.ukim.finki.wp.lab.service.MovieService;
+import mk.ukim.finki.wp.lab.service.TicketOrderService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebExchange;
@@ -18,11 +19,14 @@ import java.io.PrintWriter;
 public class MovieListServlet extends HttpServlet {
 
     private final MovieService movieService;
+    private final TicketOrderService ticketOrderService;
     private final SpringTemplateEngine springTemplateEngine;
 
-    public MovieListServlet(MovieService movieService, SpringTemplateEngine springTemplateEngine) {
+    public MovieListServlet(MovieService movieService, SpringTemplateEngine springTemplateEngine,
+                            TicketOrderService ticketOrderService) {
         this.movieService = movieService;
         this.springTemplateEngine = springTemplateEngine;
+        this.ticketOrderService = ticketOrderService;
     }
 
     @Override
@@ -45,6 +49,9 @@ public class MovieListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String title = req.getParameter("selectedMovie");
         int numberOfTickets = Integer.parseInt(req.getParameter("numTickets"));
-        resp.sendRedirect("/ticketOrder?title=" + title + "&numTickets=" + numberOfTickets);
+        String username = req.getParameter("username");
+        String address = "Adresa 1";
+        ticketOrderService.placeOrder(title, username, address, numberOfTickets);
+        resp.sendRedirect("/ticketOrder?title=" + title + "&numTickets=" + numberOfTickets + "&username=" + username);
     }
 }

@@ -31,3 +31,4 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.searchTitleAndRating(title, rating);
     }
 }
+
