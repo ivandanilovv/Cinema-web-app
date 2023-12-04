@@ -19,6 +19,9 @@
         <input type="number" min="1" max="10" value="1" name="searchRating">
         <input type="submit" value="Search">
     </form>
+    <a th:href="@{'/movies/add-form'}">
+        <button type="button">Add New Movie</button>
+    </a>
     <form th:method="POST" th:action="@{/}">
         <h2>Choose movie:</h2>
         <th:block th:each="movie : ${movies}">
@@ -27,6 +30,9 @@
                 <b>Title:</b> <span th:text="${movie.getTitle()}"></span><br/>
                 <b>Summary:</b> <span th:text="${movie.getSummary()}"></span><br/>
                 <b>Rating:</b> <span th:text="${movie.getRating()}"></span><br/>
+                <b>Production:</b> <span th:text="${movie.getProduction().getName()}"></span><br/>
+                <a th:href="@{'/movies/edit-form/' + ${movie.id}}"><button type="button">Edit</button></a>
+                <a th:href="@{'/movies/delete/' + ${movie.id}}"><button type="button">Delete</button></a>
             </label><br/><br/>
         </th:block>
         <input type="text" placeholder="Enter your name" required name="username">
