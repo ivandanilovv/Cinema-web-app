@@ -1,20 +1,24 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Movie;
-import mk.ukim.finki.wp.lab.repository.MovieRepository;
+import mk.ukim.finki.wp.lab.model.Production;
+import mk.ukim.finki.wp.lab.repository.impl.ProductionRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.JpaMovieRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.JpaProductionRepository;
 import mk.ukim.finki.wp.lab.service.MovieService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private final MovieRepository movieRepository;
+    private final JpaMovieRepository movieRepository;
+    private final JpaProductionRepository productionRepository;
 
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    public MovieServiceImpl(JpaMovieRepository movieRepository, JpaProductionRepository productionRepository) {
         this.movieRepository = movieRepository;
+        this.productionRepository = productionRepository;
     }
 
     @Override
@@ -24,27 +28,29 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> searchMovies(String text) {
-        return movieRepository.searchMovies(text);
+        return movieRepository.findAllByTitleLikeOrSummaryLike(text, text);
     }
 
     @Override
     public List<Movie> searchTitleAndRating(String title, String rating) {
-        return movieRepository.searchTitleAndRating(title, rating);
+        return movieRepository.findMoviesByTitleContainsAndRatingGreaterThanEqual(title, Double.valueOf(rating));
     }
 
     @Override
     public void save(String name, String summary, Double rating, Long id) {
-        movieRepository.save(name,summary,rating, id);
+        Production production = productionRepository.findProductionById(id);
+        Movie m = new Movie(name, summary, rating, production);
+        movieRepository.save(m);
     }
 
     @Override
     public Movie findById(Long movieId) {
-        return this.movieRepository.findById(movieId);
+        return this.movieRepository.findMovieById(movieId);
     }
 
     @Override
     public void delete(Long id) {
-        movieRepository.delete(id);
+        movieRepository.deleteById(id);
     }
 }
 

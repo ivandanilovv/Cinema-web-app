@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.TicketOrder;
-import mk.ukim.finki.wp.lab.repository.TicketOrderRepository;
+import mk.ukim.finki.wp.lab.repository.impl.TicketOrderRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.JpaTicketOrderRepository;
 import mk.ukim.finki.wp.lab.service.TicketOrderService;
 import org.springframework.stereotype.Service;
 
@@ -10,25 +11,25 @@ import java.util.List;
 @Service
 public class TicketOrderServiceImpl implements TicketOrderService {
 
-    private final TicketOrderRepository ticketOrderRepository;
+    private final JpaTicketOrderRepository ticketOrderRepository;
 
-    public TicketOrderServiceImpl(TicketOrderRepository ticketOrderRepository) {
+    public TicketOrderServiceImpl(JpaTicketOrderRepository ticketOrderRepository) {
         this.ticketOrderRepository = ticketOrderRepository;
     }
 
     public List<TicketOrder> listAll() {
-        return  ticketOrderRepository.getAllTicketOrders();
+        return  ticketOrderRepository.findAll();
     }
 
     @Override
     public TicketOrder placeOrder(String movieTitle, String clientName, String address, int numberOfTickets) {
         TicketOrder ticketOrder = new TicketOrder(movieTitle, clientName, address, (long) numberOfTickets);
-        ticketOrderRepository.placeOrder(ticketOrder);
+        ticketOrderRepository.save(ticketOrder);
         return ticketOrder;
     }
 
     @Override
     public List<TicketOrder> searchUsers(String username) {
-        return ticketOrderRepository.searchTickets(username);
+        return ticketOrderRepository.searchTicketOrderByClientNameIs(username);
     }
 }
