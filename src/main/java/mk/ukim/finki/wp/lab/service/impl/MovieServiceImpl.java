@@ -44,6 +44,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void edit(Long id, String title, String summary, Double rating, Long production_id) {
+        Movie m = movieRepository.findMovieById(id);
+        m.setTitle(title);
+        m.setSummary(summary);
+        m.setRating(rating);
+
+        Production p = productionRepository.findProductionById(production_id);
+        m.setProduction(p);
+        movieRepository.save(m);
+    }
+
+    @Override
     public Movie findById(Long movieId) {
         return this.movieRepository.findMovieById(movieId);
     }

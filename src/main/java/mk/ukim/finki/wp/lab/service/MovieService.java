@@ -15,6 +15,8 @@ public interface MovieService {
 
     public void save(String name, String summary, Double rating, Long id);
 
+    public void edit(Long id, String title, String summary, Double rating, Long production_id);
+
     Movie findById(Long movieId);
 
     void delete(Long id);

@@ -36,15 +36,11 @@ public class MovieController {
                             @RequestParam double rating,
                             @RequestParam Long productions,
                             @RequestParam(required = false) Long movieId) {
-        if (movieId == 0) {
+        if (movieId != null) {
+            this.movieService.edit(movieId, movieTitle, summary, rating, productions);
+        } else {
             this.movieService.save(movieTitle, summary, rating, productions);
-            return "redirect:/movies";
         }
-        Movie movie = this.movieService.findById(movieId);
-        movie.setTitle(movieTitle);
-        movie.setSummary(summary);
-        movie.setRating(rating);
-        movie.setProduction(productionService.findById(productions));
         return "redirect:/movies";
     }
 
@@ -63,22 +59,22 @@ public class MovieController {
     }
 
     @GetMapping("/edit-form/{id}")
-    public String getEditMovieForm(@PathVariable Long id, Model model){
+    public String getEditMovieForm(@PathVariable Long id, Model model) {
         Movie movie = movieService.findById(id);
-        model.addAttribute("movie",movie);
+        model.addAttribute("movie", movie);
         List<Production> productions = productionService.findAll();
-        model.addAttribute("productions",productions);
+        model.addAttribute("productions", productions);
         return "add-movie";
     }
 
-    @GetMapping ("/delete/{id}")
-    public String deleteMovie(@PathVariable Long id){
+    @GetMapping("/delete/{id}")
+    public String deleteMovie(@PathVariable Long id) {
         movieService.delete(id);
         return "redirect:/movies";
     }
 
     @GetMapping("/add-form")
-    public String getAddMoviePage(Model model){
+    public String getAddMoviePage(Model model) {
         List<Production> productions = productionService.findAll();
         model.addAttribute("productions", productions);
         return "add-movie";
