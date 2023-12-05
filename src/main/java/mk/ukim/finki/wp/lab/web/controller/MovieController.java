@@ -36,7 +36,8 @@ public class MovieController {
                             @RequestParam double rating,
                             @RequestParam Long productions,
                             @RequestParam(required = false) Long movieId) {
-        if (movieId != null) {
+        Movie m = movieService.findById(movieId);
+        if (m != null) {
             this.movieService.edit(movieId, movieTitle, summary, rating, productions);
         } else {
             this.movieService.save(movieTitle, summary, rating, productions);

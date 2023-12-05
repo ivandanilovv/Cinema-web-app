@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mk.ukim.finki.wp.lab.service.MovieService;
 import mk.ukim.finki.wp.lab.service.TicketOrderService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.web.IWebExchange;
@@ -14,6 +15,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 @WebServlet(name = "movie-list-servlet", urlPatterns = "")
 public class MovieListServlet extends HttpServlet {
@@ -51,7 +53,9 @@ public class MovieListServlet extends HttpServlet {
         int numberOfTickets = Integer.parseInt(req.getParameter("numTickets"));
         String username = req.getParameter("username");
         String address = "Adresa 1";
-        ticketOrderService.placeOrder(title, username, address, numberOfTickets);
-        resp.sendRedirect("/ticketOrder?title=" + title + "&numTickets=" + numberOfTickets + "&username=" + username);
+        LocalDateTime date = LocalDateTime.parse(req.getParameter("dateCreated"));
+        ticketOrderService.placeOrder(title, username, address, numberOfTickets, date);
+        resp.sendRedirect("/ticketOrder?title=" + title + "&numTickets=" + numberOfTickets
+                + "&username=" + username + "&dateCreated=" + date);
     }
 }

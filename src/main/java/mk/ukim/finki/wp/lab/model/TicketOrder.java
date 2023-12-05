@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -24,10 +26,13 @@ public class TicketOrder {
     @ManyToOne
     private User user;
 
-    public TicketOrder(String movieTitle, String clientName, String clientAddress, Long numberOfTickets) {
+    private LocalDateTime dateCreated;
+
+    public TicketOrder(String movieTitle, String clientName, String clientAddress, Long numberOfTickets, LocalDateTime dateCreated) {
         this.movieTitle = movieTitle;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
         this.numberOfTickets = numberOfTickets;
+        this.dateCreated = dateCreated;
     }
 }

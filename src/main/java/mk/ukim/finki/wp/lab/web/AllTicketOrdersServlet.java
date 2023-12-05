@@ -46,4 +46,9 @@ public class AllTicketOrdersServlet extends HttpServlet {
         String username = req.getParameter("users");
         resp.sendRedirect("/allTicketOrders?users=" + username);
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("user");
+    }
 }

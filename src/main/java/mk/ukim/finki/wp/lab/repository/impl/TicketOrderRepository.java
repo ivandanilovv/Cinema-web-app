@@ -13,12 +13,12 @@ public class TicketOrderRepository {
     public static List<TicketOrder> ticketOrders = new ArrayList<>();
 
     public TicketOrderRepository() {
-        ticketOrders.add(new TicketOrder("The Godfather",
-                "Ivan Danilov", "Adresa 1", 1L));
-        ticketOrders.add(new TicketOrder("Inception",
-                "Marko Markovski", "Adresa 1", 7L));
-        ticketOrders.add(new TicketOrder("Se7en",
-                "Ivan Danilov", "Adresa 1", 2L));
+//        ticketOrders.add(new TicketOrder("The Godfather",
+//                "Ivan Danilov", "Adresa 1", 1L));
+//        ticketOrders.add(new TicketOrder("Inception",
+//                "Marko Markovski", "Adresa 1", 7L));
+//        ticketOrders.add(new TicketOrder("Se7en",
+//                "Ivan Danilov", "Adresa 1", 2L));
     }
 
     public List<TicketOrder> getAllTicketOrders() {
